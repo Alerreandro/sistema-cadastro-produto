@@ -6,105 +6,86 @@ import java.util.Scanner;
 
 public class Cadastro {
 
-	// Lista para armazenar os produtos cadastrados
-	ArrayList<Produto> produto = new ArrayList<>();
-	Scanner scanner = new Scanner(System.in);
+    ArrayList<Produto> produto = new ArrayList<>();
+    Scanner scanner = new Scanner(System.in);
 
-	// Construtor que permite inicializar a lista de produtos e o Scanner
-	public Cadastro(ArrayList<Produto> produto, Scanner sc) {
-		this.produto = produto;
-		this.scanner = sc;
-	}
+    public Cadastro(ArrayList<Produto> produto, Scanner sc) {
+        this.produto = produto;
+        this.scanner = sc;
+    }
 
-	// Construtor padrão
-	public Cadastro() {
-	}
+    public Cadastro() {
+    }
 
-	// Método para cadastrar um novo produto
-	public void cadastrarProduto() {
+    public void cadastrarProduto() {
+        System.out.println("Cadastrando o produto\n");
+        System.out.println("Digite o nome do produto: ");
+        String name = scanner.nextLine();
+        System.out.println("Digite a descrição do produto: ");
+        String descricao = scanner.nextLine();
+        System.out.println("Digite o valor do produto: ");
+        double valor = cadastrarValor();
+        scanner.nextLine(); 
+        System.out.println("O produto está disponível ? (sim/não) ");
+        String dispo = scanner.nextLine();
+        String disponivel = validarDisponivel(dispo);
+        Produto produtNovo = new Produto(name, descricao, valor, disponivel);
+        produto.add(produtNovo);
+        System.out.println("\nProduto cadastrado com sucesso!");
+    }
 
-		System.out.println("Cadastrando o produto\n");
-		System.out.println("Digite o nome do produto: ");
-		String name = scanner.nextLine(); // Captura o nome do produto
-		System.out.println("Digite a descrição do produto: ");
-		String descricao = scanner.nextLine(); // Captura a descrição do produto
-		System.out.println("Digite o valor do produto: ");
-		double valor = cadastrarValor(); // Valida e captura o valor do produto
-		scanner.nextLine(); // Limpa o buffer do Scanner
-		System.out.println("O produto está disponível ? (sim/não) ");
-		String dispo = scanner.nextLine(); // Captura a disponibilidade do produto
+    public void listagemProduto() {
+        String opcao;
+        if (produto.isEmpty()) {
+            System.out.println("Não há produtos cadastrados");
+        } else {
+            produto.stream()
+                   .sorted(Comparator.comparingDouble(Produto::getValor))
+                   .forEach(System.out::println);
+        }
+        System.out.println("Deseja cadastrar um novo produto ? Sim/Não");
+        opcao = scanner.nextLine();
+        if (opcao.equalsIgnoreCase("Sim")) {
+            cadastrarProduto();
+            listagemProduto();
+        } else if (opcao.equalsIgnoreCase("Não")) {
+            System.out.println("Voltando para o menu\n");
+        } else {
+            System.out.println("Programa não reconhece esse comando, por favor responda com Sim ou Não.");
+            listagemProduto();
+        }
+    }
+    double cadastrarValor() {
+        double vlr = scanner.nextDouble();
+        if (vlr < 0) {
+            System.out.println("Valor inserido é negativo, insira um valor positivo");
+            vlr = cadastrarValor();
+        }
+        if (vlr == 0) {
+            System.out.println("Valor não pode ser nulo, insira um valor positivo");
+            vlr = cadastrarValor();
+        }
+        return vlr;
+    }
 
-		String disponivel = validarDisponivel(dispo); // Valida a resposta de disponibilidade
+    String validarDisponivel(String dispo) {
+        String opcao = dispo;
+        if (opcao.equalsIgnoreCase("Sim") || opcao.equalsIgnoreCase("Não")) {
+            return opcao;
+        } else {
+            System.out.println("Programa não reconhece esse comando, por favor responda com Sim ou Não");
+            String op = scanner.nextLine();
+            opcao = validarDisponivel(op);
+        }
+        return opcao;
+    }
 
-		// Cria um novo objeto Produto com os dados fornecidos
-		Produto produtNovo = new Produto(name, descricao, valor, disponivel);
+    public void adicionarProduto(Produto p) {
+        produto.add(p);
+    }
+    
 
-		// Adiciona o novo produto à lista
-		produto.add(produtNovo);
-
-		System.out.println("\nProduto cadastrado com sucesso!");
-	}
-
-	// Método para listar os produtos cadastrados
-	public void listagemProduto() {
-
-		String opcao;
-		if (produto.isEmpty()) {
-			// Caso não haja produtos cadastrados
-			System.out.println("Não há produtos cadastrados");
-		} else {
-			// Ordena os produtos pelo valor e exibe cada um deles
-			produto.stream().sorted(Comparator.comparingDouble(Produto::getValor)).forEach(System.out::println);
-		}
-
-		System.out.println("Deseja cadastrar um novo produto ? Sim/Não");
-		opcao = scanner.nextLine(); // Captura a resposta do usuário
-
-		if (opcao.equals("Sim") || opcao.equals("sim")) {
-			// Caso o usuário queira cadastrar um novo produto
-			cadastrarProduto();
-			listagemProduto(); // Exibe a lista atualizada
-		} else if (opcao.equals("Não") || opcao.equals("não")) {
-			// Volta ao menu principal
-			System.out.println("Voltando para o menu\n");
-		} else {
-			// Resposta inválida
-			System.out.println("Programa não reconhece esse comando, por favor responda com Sim ou Não.");
-			listagemProduto(); // Solicita novamente a resposta
-		}
-	}
-
-	// Método para capturar e validar o valor do produto
-	double cadastrarValor() {
-
-		double vlr = scanner.nextDouble();
-		if (vlr < 0) {
-			// Valor negativo não é permitido
-			System.out.println("Valor inserido é negativo, insira um valor positivo");
-			vlr = cadastrarValor(); // Solicita novamente
-		}
-		if (vlr == 0) {
-			// Valor zero não é permitido
-			System.out.println("Valor não pode ser nulo, insira um valor positivo");
-			vlr = cadastrarValor(); // Solicita novamente
-		}
-
-		return vlr; // Retorna o valor válido
-	}
-
-	// Método para validar a resposta de disponibilidade do produto
-	String validarDisponivel(String dispo) {
-
-		String opcao = dispo;
-		if (opcao.equals("Sim") || opcao.equals("sim") || opcao.equals("Não") || opcao.equals("não")) {
-			// Resposta válida
-			return opcao;
-		} else {
-			// Resposta inválida
-			System.out.println("Programa não reconhece esse comando, por favor responda com Sim ou Não");
-			String op = scanner.nextLine();
-			opcao = validarDisponivel(op); // Solicita novamente
-		}
-		return opcao; // Retorna a resposta válida
-	}
+    public ArrayList<Produto> getProdutos() {
+        return produto;
+    }
 }
