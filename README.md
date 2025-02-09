@@ -12,7 +12,7 @@ Este projeto é um sistema simples para cadastro e listagem de produtos em Java.
 
 ## 🛠️ Estrutura do Projeto
 
-A estrutura do projeto está organizada em dois pacotes principais:
+A estrutura do projeto está organizada em três pacotes principais:
 
 ### Pacote `programa`
 
@@ -23,6 +23,11 @@ A estrutura do projeto está organizada em dois pacotes principais:
 - **`Produto.java`:** Representa um produto com atributos como nome, descrição, valor e disponibilidade. Inclui métodos para acessar os atributos e formatar a exibição do produto.
 - **`Cadastro.java`:** Gerencia a lista de produtos, incluindo cadastro, validação e listagem.
 
+### Pacote `gui`
+
+- **`InterfaceGrafica.java`:** Implementa uma interface gráfica utilizando Swing para o cadastro e a listagem dos produtos.
+  Permite o cadastro por meio de um formulário e a visualização dos produtos cadastrados em uma tabela ordenada pelo valor.
+
 ## 🚀 Como Executar
 
 1. Certifique-se de ter o [Java JDK](https://www.oracle.com/java/technologies/javase-jdk-downloads.html) instalado em sua máquina.
@@ -31,7 +36,7 @@ A estrutura do projeto está organizada em dois pacotes principais:
    git clone https://github.com/Alerreandro/sistema-cadastro-produto.git
    ```
 
-🖼️ Demonstração do Menu
+🖼️ Demonstração do Menu (Versão Console)
 Ao executar o programa, o menu será exibido:
 
 ---
@@ -41,6 +46,9 @@ Ao executar o programa, o menu será exibido:
 1 - Cadastro de produto
 2 - Listagem de produto
 99 - Sair do programa
+
+Observação:
+A versão principal do projeto atualmente utiliza uma interface gráfica (Swing) para facilitar o cadastro e a listagem dos produtos. Caso seja necessário testar a versão console, é possível utilizar os métodos da classe Cadastro diretamente.
 
 ---
 
@@ -69,11 +77,12 @@ Disponibilidade inválida: Aceita apenas "Sim" ou "Não". Caso contrário, será
 
 Linguagem: Java
 Paradigma: Programação Orientada a Objetos
+Interface: Swing (para a interface gráfica)
 
 ✨ Melhorias Futuras
 Adicionar persistência de dados (salvar e carregar produtos de um arquivo ou banco de dados).
-Criar uma interface gráfica para melhorar a experiência do usuário.
-Permitir remoção e edição de produtos já cadastrados.
+Permitir a remoção e edição de produtos já cadastrados.
+Aprimorar a interface gráfica e a experiência do usuário.
 
 🧑‍💻 Autor
 Desenvolvido por José Alerreandro Abreu Costa
